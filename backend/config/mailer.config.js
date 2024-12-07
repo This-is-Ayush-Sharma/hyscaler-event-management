@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 
 
 // Function to send an email to a single recipient
-const sendSingleEmailConfirmation = async (to, subject, eventDetails) => {
+const sendSingleEmailConfirmation = async (to, subject, eventDetails, user) => {
     try {
         const info = await transporter.sendMail({
             from: '"Ayush Sharma" thisisayush79@gmail.com', // Sender address
@@ -20,7 +20,7 @@ const sendSingleEmailConfirmation = async (to, subject, eventDetails) => {
             subject,                                     // Subject line
             html: `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
             <h2 style="color: #4CAF50; text-align: center;">🎉 Registration Confirmation 🎉</h2>
-            <p>Dear <strong>${name}</strong>,</p>
+            <p>Dear <strong>${user.name}</strong>,</p>
             <p>Thank you for registering for the event. Here are your event details:</p>
             
             <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
@@ -34,11 +34,11 @@ const sendSingleEmailConfirmation = async (to, subject, eventDetails) => {
                 </tr>
                 <tr>
                     <th style="text-align: left; padding: 8px; background-color: #f2f2f2;">Start Date</th>
-                    <td style="padding: 8px;">${eventDetails.startDate}</td>
+                    <td style="padding: 8px;">${eventDetails.startTime}</td>
                 </tr>
                 <tr>
                     <th style="text-align: left; padding: 8px; background-color: #f2f2f2;">End Date</th>
-                    <td style="padding: 8px;">${eventDetails.endDate}</td>
+                    <td style="padding: 8px;">${eventDetails.endTime}</td>
                 </tr>
                 <tr>
                     <th style="text-align: left; padding: 8px; background-color: #f2f2f2;">Description</th>

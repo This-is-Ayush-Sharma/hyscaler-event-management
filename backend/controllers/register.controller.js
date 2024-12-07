@@ -1,5 +1,6 @@
 const Register = require("../model/register");
 const Event = require("../model/event");
+const {sendSingleEmailConfirmation} = require("../config/mailer.config");
 
 // Register a user for an event
 exports.registerUserForEvent = async (req, res) => {
@@ -18,6 +19,11 @@ exports.registerUserForEvent = async (req, res) => {
         const eventData = await Event.findById({ _id: event});
         eventData.registrations.push(registration._id);
         await eventData.save();
+
+        // console.log(eventData);
+
+        // send email after registartion success
+        sendSingleEmailConfirmation(req.user.email, "Registration Complete your are invited for the event",eventData, req.user);
 
         res.status(201).json(registration);
     } catch (error) {
