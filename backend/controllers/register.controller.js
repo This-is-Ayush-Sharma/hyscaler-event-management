@@ -3,12 +3,14 @@ const Register = require("../model/register");
 // Register a user for an event
 exports.registerUserForEvent = async (req, res) => {
     try {
-        const { userId, eventId, ticketIds } = req.body;
+        const user = req.user._id;
+        const { quantity, event, ticket } = req.body;
 
         const registration = await Register.create({
-            userId,
-            event: eventId,
-            tickets: ticketIds
+            user,
+            event,
+            quantity,
+            ticket
         });
 
         res.status(201).json(registration);
@@ -42,3 +44,4 @@ exports.getRegistrationsByEvent = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 };
+

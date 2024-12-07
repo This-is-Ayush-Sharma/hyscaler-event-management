@@ -10,13 +10,25 @@ const user = mongoose.Schema({
         required: true,
         unique: true,
     },
-    phone: {
+    phoneNumber: {
         type: String,
         required: true,
     },
     status:{
         type: String,
         default: "inactive",
+    },
+    account_type:{
+        type: String,
+        required: true,
+        enum: ["organiser", "attendee"],
+        default: "attendee",
+    },
+    token: {
+        type: String
+    },
+    password: {
+        type: String,
     }
 });
 

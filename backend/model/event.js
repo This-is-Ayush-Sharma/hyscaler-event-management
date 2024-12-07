@@ -10,21 +10,25 @@ const events = mongoose.Schema({
         required: true,
     },
     startTime: {
-        type: Number,
+        type: Date,
         required: true,
     },
     endTime: {
-        type: Number,
+        type: Date,
         required: true,
     },
     description: {
         type: String,
         required: true,
     },
-    type: {
+    user:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
+    event_status: {
         type: String,
-        required: true,
-        enum: ['public', 'private'],
+        default: 'upcoming',
+        enum: ['Upcoming', 'Active', 'Completed', 'Draft'],
     }
 });
 
