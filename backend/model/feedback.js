@@ -7,14 +7,8 @@ const feedbackSchema = new mongoose.Schema(
             ref: 'users', // Reference to User model
             required: true,
         },
-        event: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'events', // Reference to Event model
-            required: false, // Optional if feedback is for a general platform
-        },
         rating: {
             type: Number,
-            required: true,
             min: 1,
             max: 5, // Assuming a 5-star rating system
         },

@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const { sendOtp } = require("../config/mailer.config");
 const jwt = require("jsonwebtoken");
 const Event = require('../model/event');
+
 // Create a new user
 exports.createUser = async (req, res) => {
     try {
@@ -51,6 +52,7 @@ exports.verifyAccount = async (req, res) => {
     }
 }
 
+
 exports.login = async (req, res) => {
     try{
         const {email, password} = req.body;
@@ -79,7 +81,7 @@ exports.login = async (req, res) => {
 }
 
 
-// fetch attendies for event
+// fetch attendiee for event
 exports.eventAttendees = async (req, res) => {
     try{
         const user = req.user._id;

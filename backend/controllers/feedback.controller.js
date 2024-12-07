@@ -1,27 +1,32 @@
 const Feedback = require('../model/feedback');
+const Event = require('../model/event');
 
 // Create a Feedback
 exports.createFeedback = async (req, res, next) => {
     try {
-        // const user = req.user._id;
-        const { user, event, rating, comment } = req.body;
+        const user = req.user._id;
+        const { eventId, rating, comment } = req.body;
 
         // Validate required fields
         if (!user || !rating) {
             return res.status(400).json({ message: 'User ID and Rating are required' });
         }
 
+
         // Create feedback in the database
-        const feedback = await Feedback.create({
+        const feedbackData = await Feedback.create({
             user,
-            event,
             rating,
             comment,
         });
 
+        const eventDetails = await Event.findById({ _id: eventId});
+        eventDetails.feedbacks.push(feedbackData._id);
+        await eventDetails.save();
+
         res.status(201).json({
             message: 'Feedback submitted successfully',
-            feedback,
+            feedbackData,
         });
     } catch (error) {
         next(error);

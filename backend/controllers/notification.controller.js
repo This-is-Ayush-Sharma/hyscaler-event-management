@@ -1,7 +1,24 @@
 const {sendBulkEmailsNotification} = require("../config/mailer.config");
+const Event = require('../model/event');
+
 exports.sendNotification = async (req, res) => {
     try{
-        const { recipients, subject, message } = req.body;
+        const { subject, message, event } = req.body;
+
+        const recipients = [];
+        const registrationData =  await Event.find({_id: event}).populate({
+            path: 'registrations',
+            populate: { path: 'user', select: 'email' },
+        });
+
+        // console.log(registrationData);
+
+        registrationData?.map((register) => {
+            // console.log(register);
+            register?.registrations?.map((deatils) => {
+                recipients.push(deatils.user.email);
+            })
+        });
 
         sendBulkEmailsNotification(recipients, subject, message);
 

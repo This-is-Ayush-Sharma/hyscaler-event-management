@@ -42,7 +42,7 @@ router.get('/registrations', registerController.getRegistrations);
 router.get('/registrations/event/:eventId', registerController.getRegistrationsByEvent);
 
 // feedback routes
-router.post('/feedback', feedbackController.createFeedback);
+router.post('/feedback', verifyToken, feedbackController.createFeedback);
 router.get('/feedback/:eventId', feedbackController.getEventFeedback);
 // router.get('/feedback/:userId', feedbackController.getUserFeedback);
 router.delete('/feedback/:feedbackId', feedbackController.deleteFeedback);

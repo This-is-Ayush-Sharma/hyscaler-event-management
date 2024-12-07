@@ -15,7 +15,10 @@ exports.createEvent = async (req, res) => {
 // Get all events
 exports.getEvents = async (req, res) => {
     try {
-        const events = await Event.find({user: req.user._id});
+        const events = await Event.find({user: req.user._id}).populate({
+            path: 'feedbacks',
+            populate: { path: 'user', select: 'name' },
+        });
         res.status(200).json(events);
     } catch (error) {
         console.log(error);

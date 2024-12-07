@@ -35,6 +35,12 @@ const events = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Register'
         }
+    ],
+    feedbacks: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Feedback'
+        }
     ]
 });
 
