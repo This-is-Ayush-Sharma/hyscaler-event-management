@@ -4,6 +4,7 @@ const app = express();
 const routes = require('./routes/routes');
 const { connect } = require('./config/db');
 const cors = require('cors');
+const axios = require("axios");
 
 
 
@@ -14,5 +15,14 @@ app.use("/", routes);
 
 app.listen(port, () => {
     connect();
-    console.log("Server started on port " + port)
+    console.log("Server started on port " + port);
 });
+
+// to make deployment run on (onrender)
+const autoHitApi = () => {
+    axios.get("https://hyscaler-event-management.onrender.com/health")
+        .then((response) => {
+            console.log(response.data);
+        });
+}
+setInterval(autoHitApi, 120000);
