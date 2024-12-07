@@ -27,6 +27,8 @@ router.get('/events', verifyToken, eventController.getEvents);
 router.get('/events/:uid', verifyToken, eventController.getEventsById);
 router.put('/events/:uid', verifyToken, eventController.updateEvent);
 router.delete('/events/:uid', verifyToken, eventController.deleteEvent);
+//update event status
+router.get('/event/eventstatus', verifyToken, eventController.UpdateEventStatus);
 
 // Ticket routes
 router.post('/tickets', verifyToken, ticketController.createTicket);
@@ -54,5 +56,8 @@ router.post("/payment-intent", verifyToken, paymentController.paymentIntent);
 
 //dashboard
 router.get('/dashboard', verifyToken, dashboardController.dashboard);
+
+// Get events attendees detail
+router.get('/attendees', verifyToken, userController.eventAttendees);
 
 module.exports = router;

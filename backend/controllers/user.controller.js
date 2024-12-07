@@ -2,7 +2,7 @@ const User = require('../model/user');
 const bcrypt = require('bcrypt');
 const { sendOtp } = require("../config/mailer.config");
 const jwt = require("jsonwebtoken");
-
+const Event = require('../model/event');
 // Create a new user
 exports.createUser = async (req, res) => {
     try {
@@ -72,6 +72,23 @@ exports.login = async (req, res) => {
 
 
         res.status(200).json(jwtToken);
+    }
+    catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+
+// fetch attendies for event
+exports.eventAttendees = async (req, res) => {
+    try{
+        const user = req.user._id;
+        const event = await Event.find({ user: user }).populate({
+            path: 'registrations',
+            populate: { path: 'user', select: 'name email' }, // Include user details in registrations
+        });
+        // console.log(event);
+        res.status(200).json(event);
     }
     catch (error) {
         res.status(400).json({ error: error.message });

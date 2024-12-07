@@ -1,4 +1,5 @@
 const Register = require("../model/register");
+const Event = require("../model/event");
 
 // Register a user for an event
 exports.registerUserForEvent = async (req, res) => {
@@ -12,6 +13,11 @@ exports.registerUserForEvent = async (req, res) => {
             quantity,
             ticket
         });
+
+
+        const eventData = await Event.findById({ _id: event});
+        eventData.registrations.push(registration._id);
+        await eventData.save();
 
         res.status(201).json(registration);
     } catch (error) {

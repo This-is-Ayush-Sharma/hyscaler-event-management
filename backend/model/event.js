@@ -27,9 +27,15 @@ const events = mongoose.Schema({
     },
     event_status: {
         type: String,
-        default: 'upcoming',
+        default: 'Upcoming',
         enum: ['Upcoming', 'Active', 'Completed', 'Draft'],
-    }
+    },
+    registrations: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Register'
+        }
+    ]
 });
 
 module.exports = mongoose.model("events", events);
