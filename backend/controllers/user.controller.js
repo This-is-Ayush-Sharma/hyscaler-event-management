@@ -57,12 +57,25 @@ exports.login = async (req, res) => {
     try{
         const {email, password} = req.body;
         if (!email || !password) {
-            res.status(400).json({ "message" : "Email/Password is required" });
+            return res.status(400).json({ message : "Email/Password is required" });
         }
 
         const user = await User.findOne({ email });
+
         if (!user) {
-            res.status(404).json({ "message" : "User not found" });
+            return res.status(404).json({ message : "User not found" });
+        }
+
+        if(user.status === 'inactive') {
+            return res.status(401).json({ message: "Your account is not verified!" });
+        }
+
+
+        const isMatch = await bcrypt.compare(password, user.password);
+
+
+        if (!isMatch) {
+            return res.status(401).json({ message : "Invalid Password" });
         }
 
         const jwtToken = await jwt.sign({
@@ -70,6 +83,7 @@ exports.login = async (req, res) => {
             _id: user._id,
             account_type: user.account_type,
             name: user.name,
+            status: user.status,
         }, process.env.JWT_SECRET);
 
 

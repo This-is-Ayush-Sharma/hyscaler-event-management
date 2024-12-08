@@ -36,6 +36,9 @@ router.get('/tickets', verifyToken, ticketController.getTickets);
 router.delete('/tickets/:uid', verifyToken, ticketController.deleteTicket);
 router.get("/tickets/:eventId", verifyToken, ticketController.getTicketByEventId);
 
+//My registration
+router.get("/my-registrations", verifyToken, registerController.myRegistration);
+
 // Registration routes
 router.post('/register', verifyToken, registerController.registerUserForEvent);
 router.get('/registrations', registerController.getRegistrations);
@@ -48,7 +51,7 @@ router.get('/feedback/:eventId', feedbackController.getEventFeedback);
 router.delete('/feedback/:feedbackId', feedbackController.deleteFeedback);
 
 //send notification
-router.post('/notification', notificationController.sendNotification);
+router.post('/notification', verifyToken, notificationController.sendNotification);
 
 
 //payment
@@ -60,4 +63,7 @@ router.get('/dashboard', verifyToken, dashboardController.dashboard);
 // Get events attendees detail
 router.get('/attendees', verifyToken, userController.eventAttendees);
 
+
+// all events
+router.get('/all-events', verifyToken, eventController.allEvents);
 module.exports = router;

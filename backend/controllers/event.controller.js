@@ -107,3 +107,13 @@ exports.UpdateEventStatus = async (req, res) => {
         return res.status(400).json({ error: error.message });
     }
 }
+
+exports.allEvents = async (req, res) => {
+    try{
+        const events = await Event.find({});
+        res.status(200).json(events);
+    }
+    catch(error){
+        return res.status(400).json({ error: error.message });
+    }
+}

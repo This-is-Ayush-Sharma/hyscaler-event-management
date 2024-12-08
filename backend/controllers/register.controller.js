@@ -57,3 +57,17 @@ exports.getRegistrationsByEvent = async (req, res) => {
     }
 };
 
+exports.myRegistration = async (req, res) => {
+    try{
+        const user = req.user._id;
+        const registrations = await Register.find({user}).populate({
+            path: 'event',
+            populate: { path: 'feedbacks', populate: { path: 'user'}}
+        });
+        console.log()
+        res.status(200).json(registrations);
+    }
+    catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
