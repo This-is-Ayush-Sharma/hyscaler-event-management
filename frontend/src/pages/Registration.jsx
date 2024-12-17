@@ -156,7 +156,7 @@ const Registration = () => {
                   </div>
                 ))
               ) : (
-                <p>No tickets available for this event.</p>
+                <p>No tickets available for this event.</p>  
               )}
             </div>
           </div>
@@ -176,7 +176,7 @@ const Registration = () => {
           )}
 
           {/* User Information and Payment Section */}
-          <div className="mb-12 bg-white p-6 rounded-lg shadow-lg">
+          {selectedTicket && <div className="mb-12 bg-white p-6 rounded-lg shadow-lg">
             <h3 className="text-xl font-semibold mb-4">Enter Your Details</h3>
             <input
               type="text"
@@ -199,13 +199,13 @@ const Registration = () => {
 
             {/* Payment Section */}
             <h3 className="text-xl font-semibold mb-4">Payment</h3>
-            <p className="mb-4">Total: ₹{selectedTicket?.price * quantity}</p>
+            <p className="mb-4">Total: ₹{selectedTicket?.price * quantity} </p>
             <button
               onClick={handlePaymentSubmit}
               className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
               Submit Payment
             </button>
-          </div>
+          </div>}
         </div>
       )}
     </div>

@@ -7,6 +7,8 @@ import { CheckToken } from "../../middleware/checkToken";
 const Register = () => {
   const token = CheckToken();
   const navigate = useNavigate();
+  const [ show, setShow ] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -20,10 +22,64 @@ const Register = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const passwordHandler = (e) => {
+    // toggle show 
+    setShow(!show);
+    return;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form Data Submitted: ", formData);
     try {
+      // check for valid email and password
+
+      if(!formData.email.endsWith("@gmail.com")){
+        toast.error("We can only use gmail to register!");
+        return;
+      }
+      
+      //password validation
+        // check for digits
+        // check for spec
+        // check alph
+
+      if(formData.password.length < 6){
+        toast.error("Password should be of 6 characters");
+        return;
+      }
+      
+
+
+      let dig = 0, alpha = 0, spec = 0;
+      for(let i = 0; i < formData.password.length; i++){
+        // console.log(formData.password.charAt(i).toString().charCodeAt(0))
+        if((formData.password.charCodeAt(i) >= 97 && formData.password.charCodeAt(i) <= 122)  || (formData.password.charCodeAt(i) >= 65 && formData.password.charCodeAt(i) <= 90)){
+          alpha++;
+        }
+        else if(formData.password.charCodeAt(i) >= 48 && formData.password.charCodeAt(i) <= 57){
+          dig++;
+        }
+        else{
+          spec++;
+        }
+      }
+      // console.log(dig, alpha, spec);
+
+      if(dig == 0){
+        toast.error("Password should have digits in it");
+        return;
+      }
+      if(alpha == 0){
+        toast.error("Password should have alphabets in it");
+        return;
+      }
+      if(spec == 0){
+        toast.error("Password should have special character in it");
+        return;
+      }
+
+
       const response = await auth.register(formData);
       console.log("Response", response);
       if (response.status === 201) {
@@ -44,7 +100,8 @@ const Register = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        {/* <form className="space-y-4" onSubmit={handleSubmit}> */}
+        <div className="space-y-4">
           <div>
             <label
               htmlFor="name"
@@ -100,7 +157,7 @@ const Register = () => {
               Password
             </label>
             <input
-              type="password"
+              type={show ? "text" : "password"}
               id="password"
               name="password"
               value={formData.password}
@@ -108,6 +165,10 @@ const Register = () => {
               className="border border-gray-300 rounded-lg w-full p-3"
               placeholder="Enter your Password"
             />
+            <button onClick={passwordHandler}>
+              {show ? "hide" : "show"}
+            </button> 
+              
           </div>
           <div>
             <label
@@ -127,10 +188,11 @@ const Register = () => {
           </div>
           <button
             type="submit"
+            onClick={handleSubmit}
             className="bg-blue-600 text-white w-full py-3 rounded-lg hover:bg-blue-700 transition">
             Register
           </button>
-        </form>
+        </div>
         <p className="text-sm text-gray-600 text-center mt-4">
           Already have an account?{" "}
           <a

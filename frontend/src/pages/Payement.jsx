@@ -46,6 +46,8 @@ const CheckOutForm = ({ formData }) => {
         }
       } catch (error) {
         console.log("Error in API", error);
+        toast.success("Payment Failed");
+        navigate("/dashboard");
       }
     }
   };

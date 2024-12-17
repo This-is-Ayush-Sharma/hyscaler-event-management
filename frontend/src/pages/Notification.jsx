@@ -10,9 +10,9 @@ const Notifications = () => {
     try {
       const response = await getEvents.getAllEvents(token);
       const filteredEvents = response.data.filter(
-        (event) => event.event_status === "Upcoming"
+        (event) => event.event_status === "Upcoming" || event.event_status === "Active" 
       );
-      setEvents(filteredEvents);
+      setEvents(response.data);
     } catch (error) {
       console.log("Error", error);
     }
