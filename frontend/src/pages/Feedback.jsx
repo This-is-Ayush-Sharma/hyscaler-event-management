@@ -12,9 +12,9 @@ const Feedback = () => {
     try {
       const response = await user.myRegistrations(token);
       const filteredEvents = response.data
-        // .filter(
-        //   (registration) => registration.event.event_status === "Completed"
-        // )
+        .filter(
+          (registration) =>  registration.event.event_status === "Completed" || registration.event.event_status === "Active"
+        )
         .map((registration) => ({
           ...registration.event, // Extract and use event details
           feedbacks: registration.event.feedbacks, // Include feedbacks
